@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Container Tracking</title>
+  <style>
+    body { font-family: Arial; background: #f4f4f4; padding: 30px; }
+    .tracker { background: white; padding: 20px; max-width: 400px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    input, select, button { width: 100%; padding: 10px; margin-top: 10px; font-size: 16px; }
+    button { background: #4CAF50; color: white; border: none; cursor: pointer; }
+    button:hover { background: #45a049; }
+  </style>
+</head>
+<body>
+  <div class="tracker">
+    <h2>Track Container</h2>
+    <input type="text" id="container" placeholder="Enter container number" />
+    <select id="company">
+      <option value="">-- Select Shipping Line --</option>
+      <option value="hl">Hapag-Lloyd</option>
+      <option value="one">ONE (Ocean Network Express)</option>
+      <option value="cma">CMA CGM</option>
+      <option value="msc">MSC</option>
+      <option value="arkas">Arkas</option>
+    </select>
+    <button onclick="track()">Track</button>
+  </div>
+
+  <script>
+    function track() {
+      const container = document.getElementById("container").value.trim().toUpperCase();
+      const company = document.getElementById("company").value;
+      if (!container || !company) {
+        alert("Please enter a container number and select a shipping line.");
+        return;
+      }
+
+      let url = "";
+      switch (company) {
+        case "hl":
+          url = `https://www.hapag-lloyd.com/en/online-business/track/track-by-container-solution.html?container=${container}`;
+          break;
+        case "one":
+          url = `https://ecomm.one-line.com/one-ecom/manage-shipment/cargo-tracking?searchType=ctn&searchNumber=${container}`;
+          break;
+        case "cma":
+          url = `https://www.cma-cgm.com/ebusiness/tracking/search?SearchBy=Container&Reference=${container}`;
+          break;
+        case "msc":
+          url = `https://www.msc.com/en/track-a-shipment?params=dHJhY2tpbmdOdW1iZXI9${container}&dHJhY2tpbmdNb2RlPTA=`;
+          break;
+        case "arkas":
+          url = `http://www.shippingline.org/track/?type=container&container=${container}&line=arkas&track=Track+container`;
+          break;
+        default:
+          alert("Invalid shipping line selected.");
+          return;
+      }
+
+      window.open(url, "_blank");
+    }
+  </script>
+</body>
+</html>
